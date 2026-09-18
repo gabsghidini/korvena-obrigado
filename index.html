@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Recebido pela Korvena</title>
+<meta name="description" content="Página de obrigado da Korvena com redirecionamento direto para o WhatsApp.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;700;800&family=Manrope:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+  /* ---------------------------------------------------------
+     Korvena: página de obrigado.
+     Paleta e tipografia derivadas do manual de marca:
+     navy #1E2535, dourado #C8A96E, marca K angular.
+     Tema único e deliberado (identidade da marca é a própria
+     superfície navy), com todas as cores declaradas de forma
+     explícita, sem depender de prefers-color-scheme.
+  --------------------------------------------------------- */
+
+  :root{
+    --bg:            #10141F;   /* fundo da página, mais profundo que a superfície da marca */
+    --surface:       #1E2535;   /* navy oficial da marca, cartão principal */
+    --surface-2:     #262E45;   /* navy claro, traços, divisores, chip */
+    --line:          #333D58;   /* bordas sutis sobre o navy */
+    --accent:        #C8A96E;   /* dourado oficial da marca */
+    --accent-strong: #E4C48D;   /* dourado claro, hover e destaque */
+    --accent-ink:    #1E2535;   /* texto sobre botão dourado */
+    --text:          #F4F1EA;   /* branco quente, casa com o dourado */
+    --text-muted:    #A9AFC4;   /* cinza-azulado para texto secundário */
+    --whatsapp:      #3FBE5E;   /* verde do ícone, uso pontual e literal */
+
+    color-scheme: dark;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  *{ box-sizing: border-box; }
+
+  body{
+    margin: 0;
+    min-height: 100dvh;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Manrope", ui-sans-serif, system-ui, -apple-system, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-inline: 20px;
+    padding-block: 48px;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  img{ max-width: 100%; }
+  [hidden]{ display: none !important; }
+
+  @media (prefers-reduced-motion: no-preference){
+    .card{ animation: rise .6s cubic-bezier(.2,.7,.2,1) both; }
+    .mark-stroke{ animation: draw 1.1s cubic-bezier(.2,.7,.2,1) .1s both; }
+  }
+  @keyframes rise{
+    from{ opacity: 0; transform: translateY(14px); }
+    to{ opacity: 1; transform: translateY(0); }
+  }
+  @keyframes draw{
+    from{ stroke-dashoffset: 130; }
+    to{ stroke-dashoffset: 0; }
+  }
+
+  /* -------- marca d'água: o mesmo traço angular do "K" da Korvena,
+     ampliado e recortado no canto, motivo de fundo, não decoração vazia -------- */
+  .k-watermark{
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: .5;
+  }
+  .k-watermark svg{
+    position: absolute;
+    top: 50%;
+    right: -14vmax;
+    transform: translateY(-50%);
+    width: min(78vmax, 1100px);
+    height: auto;
+  }
+
+  .wrap{
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 30rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 28px;
+  }
+
+  .brand{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .brand svg{ width: 30px; height: 30px; flex-shrink: 0; }
+  .brand span{
+    font-family: "Unbounded", ui-sans-serif, sans-serif;
+    font-weight: 700;
+    font-size: 1.05rem;
+    letter-spacing: .02em;
+  }
+
+  .card{
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    padding: 44px 32px 36px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 18px;
+    box-shadow: 0 30px 70px -35px rgba(0,0,0,.65);
+  }
+
+  .badge{
+    width: 56px;
+    height: 56px;
+    border-radius: 999px;
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .badge svg{ width: 26px; height: 26px; }
+
+  h1{
+    margin: 0;
+    font-family: "Unbounded", ui-sans-serif, sans-serif;
+    font-weight: 800;
+    font-size: clamp(2rem, 7vw, 2.75rem);
+    line-height: 1.14;
+    letter-spacing: -.01em;
+    text-wrap: balance;
+    color: var(--text);
+  }
+
+  .cta{
+    margin-top: 6px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 16px 22px;
+    border-radius: 14px;
+    background: var(--accent);
+    color: var(--accent-ink);
+    font-family: "Manrope", sans-serif;
+    font-weight: 800;
+    font-size: 1.05rem;
+    text-transform: uppercase;
+    letter-spacing: .03em;
+    text-decoration: none;
+    border: 1px solid transparent;
+    transition: background-color .15s ease, transform .15s ease;
+  }
+  .cta:hover{ background: var(--accent-strong); }
+  .cta:active{ transform: scale(.98); }
+  .cta:focus-visible{
+    outline: 2px solid var(--accent-strong);
+    outline-offset: 3px;
+  }
+  .cta svg{ width: 20px; height: 20px; flex-shrink: 0; }
+
+  .meta{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: .74rem;
+    color: var(--text-muted);
+  }
+  .meta .dot{
+    width: 6px; height: 6px; border-radius: 999px;
+    background: var(--whatsapp);
+    flex-shrink: 0;
+  }
+
+  footer{
+    position: relative;
+    z-index: 1;
+    margin-top: 34px;
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: .68rem;
+    letter-spacing: .04em;
+    color: var(--text-muted);
+    text-align: center;
+  }
+
+  @media (max-width: 380px){
+    .card{ padding: 36px 22px 28px; border-radius: 18px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="k-watermark" aria-hidden="true">
+  <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path class="mark-stroke" d="M52 44 L52 156" stroke="#C8A96E" stroke-width="14" stroke-linecap="square" stroke-dasharray="130" stroke-dashoffset="0"/>
+    <path class="mark-stroke" d="M52 100 L120 44" stroke="#C8A96E" stroke-width="14" stroke-linecap="square" stroke-dasharray="130" stroke-dashoffset="0"/>
+    <path class="mark-stroke" d="M52 100 L120 156" stroke="#C8A96E" stroke-width="14" stroke-linecap="square" stroke-dasharray="130" stroke-dashoffset="0"/>
+    <rect x="136" y="44" width="12" height="112" fill="#C8A96E" opacity="0.4"/>
+  </svg>
+</div>
+
+<div class="wrap">
+  <div class="brand">
+    <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <rect width="200" height="200" rx="32" fill="#1E2535"/>
+      <path d="M52 44 L52 156" stroke="#C8A96E" stroke-width="14" stroke-linecap="square"/>
+      <path d="M52 100 L120 44" stroke="#C8A96E" stroke-width="14" stroke-linecap="square"/>
+      <path d="M52 100 L120 156" stroke="#C8A96E" stroke-width="14" stroke-linecap="square"/>
+      <rect x="136" y="44" width="12" height="112" fill="#C8A96E" opacity="0.35"/>
+    </svg>
+    <span>KORVENA</span>
+  </div>
+
+  <div class="card">
+    <div class="badge" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M5 13l4 4L19 7" stroke="#C8A96E" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+
+    <h1>Formulário recebido.</h1>
+
+    <a
+      class="cta"
+      href="https://wa.me/5511930513360?text=Ol%C3%A1%2C%20acabei%20de%20preencher%20o%20formul%C3%A1rio%20no%20site%20da%20Korvena%20e%20gostaria%20de%20continuar%20por%20aqui."
+      target="_blank"
+      rel="noopener"
+    >
+      <svg viewBox="0 0 24 24" fill="#1E2535" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M12.04 2c-5.5 0-9.96 4.46-9.96 9.96 0 1.76.46 3.45 1.32 4.95L2 22l5.24-1.37a9.9 9.9 0 0 0 4.8 1.22h.01c5.5 0 9.96-4.46 9.96-9.96S17.54 2 12.04 2Zm0 18.2a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.11.82.83-3.03-.2-.31a8.23 8.23 0 1 1 6.97 3.85Zm4.52-6.16c-.25-.12-1.47-.72-1.7-.8-.23-.09-.39-.12-.56.12-.17.25-.64.8-.78.96-.14.17-.29.19-.53.06-.25-.12-1.05-.39-2-1.23-.74-.66-1.24-1.47-1.39-1.72-.14-.25-.02-.38.11-.5.11-.11.25-.29.37-.43.12-.14.16-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.42h-.48c-.17 0-.43.06-.66.31-.23.25-.86.84-.86 2.05 0 1.21.88 2.38 1 2.54.12.17 1.74 2.66 4.22 3.73.59.25 1.05.4 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.67-1.18.21-.58.21-1.08.15-1.18-.06-.1-.23-.16-.48-.28Z"/>
+      </svg>
+      Quero ser atendido agora!
+    </a>
+
+    <p class="meta"><span class="dot" aria-hidden="true"></span> Equipe técnica sênior · resposta pelo WhatsApp</p>
+  </div>
+</div>
+
+<footer>© KORVENA · TECNOLOGIA SOB MEDIDA</footer>
+
+</body>
+</html>
